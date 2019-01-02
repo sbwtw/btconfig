@@ -1,0 +1,13 @@
+[package]
+name = "btconfig"
+version = "0.1.0"
+authors = ["石博文 <sbw@sbw.so>"]
+edition = "2018"
+
+[dependencies]
+log = "*"
+env_logger = "*"
+
+[dependencies.winreg]
+version = "0.6"
+features = ["transactions"]
