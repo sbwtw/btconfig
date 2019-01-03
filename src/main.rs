@@ -1,9 +1,23 @@
 
+use std::io;
+
 use log::info;
+use tui::backend::CrosstermBackend;
+use tui::style::{Color, Modifier, Style};
+use tui::widgets::{Block, Borders, Paragraph, Text, Widget};
+use tui::Terminal;
 use winreg::RegKey;
 use winreg::enums::*;
 
-fn main() {
+struct AdapterPairInfo {
+    mac: String,
+    devices: Vec<DevicePairInfo>,
+}
+
+struct DevicePairInfo {
+}
+
+fn main() -> Result<(), failure::Error> {
 
     env_logger::init();
 
@@ -17,4 +31,30 @@ fn main() {
     for key in dir_apple.enum_keys() {
         info!("{:?}", key);
     }
+
+    let mut terminal = Terminal::new(CrosstermBackend::new())?;
+    terminal.clear()?;
+    terminal.hide_cursor()?;
+
+    loop {
+        terminal.draw(|mut f| {
+            let size = f.size();
+            let text = [
+                Text::styled("It works!", Style::default().fg(Color::Green)),
+            ];
+            Paragraph::new(text.iter())
+                .block(
+                    Block::default()
+                )
+                .render(&mut f, size);
+        })?;
+
+        let input = crossterm::input();
+        match input.read_char()? {
+            'q' => break,
+            _ => {}
+        };
+    }
+
+    Ok(())
 }

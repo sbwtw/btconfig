@@ -7,7 +7,13 @@ edition = "2018"
 [dependencies]
 log = "*"
 env_logger = "*"
+failure = "*"
+crossterm = "*"
 
 [dependencies.winreg]
 version = "0.6"
 features = ["transactions"]
+
+[dependencies.tui]
+path = "../tui-rs"
+features = ["crossterm"]
